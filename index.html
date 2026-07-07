@@ -22,6 +22,12 @@ background:radial-gradient(circle,rgba(255,80,180,.25),transparent 70%);
 animation:pulse 8s infinite}
 .r2{right:-250px;bottom:-250px}.r1{left:-250px;top:-250px}
 @keyframes pulse{50%{transform:scale(1.3)}}
+@media (max-width: 480px){
+  /* Fit mobile: giảm kích thước flare và độ blur để đỡ “to quá” */
+  .ray{width:520px;height:520px;filter:blur(55px)}
+  .r2{right:-150px;bottom:-150px}
+  .r1{left:-150px;top:-150px}
+}
 </style></head>
 <body>
 <div class="ray r1"></div><div class="ray r2"></div>
@@ -42,7 +48,11 @@ const names=["💖 Phương Linh","🦢 BaoBei","💕 Phương Linh 💕","❤�
 function mk(txt,cls){
 let e=document.createElement("div");e.className="item";e.textContent=txt;
 e.style.left=Math.random()*100+"vw";
-e.style.fontSize=(18+Math.random()*40)+"px";
+// Mobile: giảm kích thước để đỡ “to quá”
+const isMobile = innerWidth <= 480;
+const minSize = isMobile ? 14 : 18;
+const maxSize = isMobile ? 34 : 58;
+e.style.fontSize=(minSize+Math.random()*(maxSize-minSize))+"px";
 e.style.color=cls=="heart"?(Math.random()>.5?"#ff4f93":"#ff9ac8"):"#ffd6ec";
 e.style.textShadow="0 0 10px hotpink,0 0 25px deeppink";
 e.style.animationDuration=(5+Math.random()*8)+"s";
