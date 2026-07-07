@@ -1,0 +1,83 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Phương Linh ❤️ BaoBei 🦢</title>
+<style>
+html,body{margin:0;height:100%;overflow:hidden;background:#000;font-family:Arial,sans-serif}
+canvas,#fx{position:fixed;inset:0}
+.hero{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);text-align:center;z-index:5}
+h1{font-size:clamp(42px,8vw,96px);color:#ffd1e8;text-shadow:0 0 10px #ff69b4,0 0 30px #ff1493,0 0 80px #ff1493;animation:float 4s ease-in-out infinite}
+@keyframes float{50%{transform:translateY(-10px)}}
+.item{position:fixed;top:-10vh;animation:fall linear forwards;pointer-events:none}
+@keyframes fall{
+0%{transform:translateY(-10vh) translateX(0) rotate(0);opacity:0}
+10%{opacity:1}
+50%{transform:translateY(50vh) translateX(25px) rotate(180deg)}
+100%{transform:translateY(110vh) translateX(-25px) rotate(360deg);opacity:0}}
+.ray{position:fixed;width:900px;height:900px;border-radius:50%;filter:blur(80px);
+background:radial-gradient(circle,rgba(255,80,180,.25),transparent 70%);
+animation:pulse 8s infinite}
+.r2{right:-250px;bottom:-250px}.r1{left:-250px;top:-250px}
+@keyframes pulse{50%{transform:scale(1.3)}}
+</style></head>
+<body>
+<div class="ray r1"></div><div class="ray r2"></div>
+<canvas id="c"></canvas>
+<div class="hero"><h1>💖 Phương Linh ❤️ 🦢 BaoBei 🦢</h1></div>
+<audio id="bgm" loop preload="auto">
+    <source src="music.mp3" type="audio/mpeg">
+</audio>
+<script>
+const cv=document.getElementById('c'),x=cv.getContext('2d');
+function rs(){cv.width=innerWidth;cv.height=innerHeight}rs();onresize=rs;
+let stars=[...Array(innerWidth<768?400:1200)].map(()=>({x:Math.random()*innerWidth,y:Math.random()*innerHeight,r:Math.random()*2,a:Math.random(),d:(Math.random()*.03)}));
+(function anim(){x.fillStyle="#000";x.fillRect(0,0,cv.width,cv.height);
+for(const s of stars){s.a+=s.d;if(s.a>1||s.a<0)s.d*=-1;x.beginPath();x.arc(s.x,s.y,s.r,0,6.28);x.fillStyle=`rgba(255,255,255,${s.a})`;x.fill();}
+requestAnimationFrame(anim)})();
+const icons=["❤️","💖","💕","💘","💝","🩷","💓","🦢"];
+const names=["💖 Phương Linh","🦢 BaoBei","💕 Phương Linh 💕","❤️ BaoBei ❤️"];
+function mk(txt,cls){
+let e=document.createElement("div");e.className="item";e.textContent=txt;
+e.style.left=Math.random()*100+"vw";
+e.style.fontSize=(18+Math.random()*40)+"px";
+e.style.color=cls=="heart"?(Math.random()>.5?"#ff4f93":"#ff9ac8"):"#ffd6ec";
+e.style.textShadow="0 0 10px hotpink,0 0 25px deeppink";
+e.style.animationDuration=(5+Math.random()*8)+"s";
+document.body.appendChild(e);
+e.onanimationend=()=>e.remove();
+}
+setInterval(()=>{for(let i=0;i<8;i++)mk(icons[Math.floor(Math.random()*icons.length)],"heart");},120);
+setInterval(()=>{mk(names[Math.floor(Math.random()*names.length)],"name");},220);
+setInterval(()=>{
+let s=document.createElement("div");
+s.style.cssText="position:fixed;width:2px;height:180px;background:linear-gradient(white,transparent);left:"+Math.random()*50+"vw;top:"+Math.random()*30+"vh;transform:rotate(45deg);filter:blur(1px);animation:shoot 2s linear forwards";
+document.body.appendChild(s);s.onanimationend=()=>s.remove();
+},2500);
+let st=document.createElement('style');st.textContent='@keyframes shoot{from{transform:translate(-100px,-100px) rotate(45deg);opacity:1}to{transform:translate(120vw,120vh) rotate(45deg);opacity:0}}';document.head.appendChild(st);
+const bgm = document.getElementById("bgm");
+
+bgm.volume = 0.35;
+
+// Thử tự phát
+bgm.play().catch(() => {
+
+    // Nếu Chrome chặn thì phát khi người dùng chạm/click lần đầu
+    const startMusic = () => {
+
+        bgm.play();
+
+        document.removeEventListener("click", startMusic);
+        document.removeEventListener("touchstart", startMusic);
+
+    };
+
+    document.addEventListener("click", startMusic);
+
+    document.addEventListener("touchstart", startMusic);
+
+});
+</script>
+</body></html>
